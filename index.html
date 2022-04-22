@@ -9,29 +9,30 @@
 
   <body>
     <canvas id="canvas" width="400" height="400"></canvas>
-    <script>
+    <script src="./script.js"></script>
+    <!-- <script>
       // Настройка элемента холста canvas
-      var canvas = document.getElementById("canvas");
-      var ctx = canvas.getContext("2d");
-      var colors = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple"];
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+      let colors = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple"];
 
       function rColor(colors) {
         return colors[Math.floor(Math.random() * colors.length)];
       }
 
       // Устанавливаем счет по умолчанию = 0
-      var score = 0;
+      let score = 0;
 
       // Получаем ширину и высоту элемента canvas
-      var width = canvas.width; // ширина холста
-      var height = canvas.height; // высота холста
+      let width = canvas.width; // ширина холста
+      let height = canvas.height; // высота холста
       // Вычисляем ширину и высоту в ячейках
-      var blockSize = 10;
-      var widthInBlocks = width / blockSize;
-      var heightInBlocks = height / blockSize;
+      let blockSize = 10;
+      let widthInBlocks = width / blockSize;
+      let heightInBlocks = height / blockSize;
 
       // Функция для рисования рамки
-      var drawBorder = function () {
+      let drawBorder = function () {
         ctx.fillStyle = "Gray";
         ctx.fillRect(0, 0, width, 10);
         ctx.fillRect(0, height - blockSize, width, blockSize);
@@ -41,7 +42,7 @@
 
       drawBorder();
       // Выводим счет игры в левом верхнем углу
-      var drawScore = function () {
+      let drawScore = function () {
         ctx.font = "20px Courier";
         ctx.fillStyle = "Black";
         ctx.textAlign = "left";
@@ -50,7 +51,7 @@
       };
       drawScore();
       // Отменяем действие setInterval и печатаем сообщение «Конец игры»
-      var gameOver = function () {
+      let gameOver = function () {
         clearInterval(intervalId);
         ctx.font = "60px Courier";
         ctx.fillStyle = "Black";
@@ -61,7 +62,7 @@
       //gameOver();
 
       // Рисуем окружность
-      var circle = function (x, y, radius, fillCircle = true) {
+      let circle = function (x, y, radius, fillCircle = true) {
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, Math.PI * 2, false);
         if (fillCircle) {
@@ -74,23 +75,23 @@
       //circle(120, 120, 5);
 
       // Задаем конструктор Block (ячейка)
-      var Block = function (col, row) {
+      let Block = function (col, row) {
         this.col = col;
         this.row = row;
       };
 
       // Рисуем квадрат в позиции ячейки
       Block.prototype.drawSquare = function (color) {
-        var x = this.col * blockSize;
-        var y = this.row * blockSize;
+        let x = this.col * blockSize;
+        let y = this.row * blockSize;
         ctx.fillStyle = color;
         ctx.fillRect(x, y, blockSize, blockSize);
       };
 
       // Рисуем круг в позиции ячейки
       Block.prototype.drawCircle = function (color) {
-        var centerX = this.col * blockSize + blockSize / 2;
-        var centerY = this.row * blockSize + blockSize / 2;
+        let centerX = this.col * blockSize + blockSize / 2;
+        let centerY = this.row * blockSize + blockSize / 2;
         ctx.fillStyle = color;
         circle(centerX, centerY, blockSize / 2, true);
       };
@@ -99,7 +100,7 @@
         return this.col === otherBlock.col && this.row === otherBlock.row;
       };
 
-      var Snake = function () {
+      let Snake = function () {
         this.segments = [new Block(7, 5), new Block(6, 5), new Block(5, 5)];
         this.direction = "right";
         this.nextDirection = "right";
@@ -109,15 +110,15 @@
 
       // Рисуем квадратик для каждого сегмента тела змейки
       Snake.prototype.draw = function () {
-        for (var i = 0; i < this.segments.length; i++) {
+        for (let i = 0; i < this.segments.length; i++) {
           this.segments[i].drawSquare(this.color);
         }
       };
       // Создаем новую голову и добавляем ее к началу змейки,
       // чтобы передвинуть змейку в текущем направлении
       Snake.prototype.move = function () {
-        var head = this.segments[0];
-        var newHead;
+        let head = this.segments[0];
+        let newHead;
         this.direction = this.nextDirection;
         if (this.direction === "right") {
           newHead = new Block(head.col + 1, head.row);
@@ -145,14 +146,14 @@
       // Проверяем, не столкнулась ли змейка со стеной или собственным
       // телом
       Snake.prototype.checkCollision = function (head) {
-        var leftCollision = head.col === 0;
-        var topCollision = head.row === 0;
-        var rightCollision = head.col === widthInBlocks - 1;
-        var bottomCollision = head.row === heightInBlocks - 1;
-        var wallCollision =
+        let leftCollision = head.col === 0;
+        let topCollision = head.row === 0;
+        let rightCollision = head.col === widthInBlocks - 1;
+        let bottomCollision = head.row === heightInBlocks - 1;
+        let wallCollision =
           leftCollision || topCollision || rightCollision || bottomCollision;
-        var selfCollision = false;
-        for (var i = 0; i < this.segments.length; i++) {
+        let selfCollision = false;
+        for (let i = 0; i < this.segments.length; i++) {
           if (head.equal(this.segments[i])) {
             selfCollision = true;
           }
@@ -160,7 +161,7 @@
         return wallCollision || selfCollision;
       };
 
-      var directions = {
+      let directions = {
         37: "left",
         38: "up",
         39: "right",
@@ -168,7 +169,7 @@
       };
       // Задаем обработчик события keydown
       addEventListener("keydown", function (event) {
-        var newDirection = directions[event.keyCode];
+        let newDirection = directions[event.keyCode];
         if (newDirection !== undefined) {
           snake.setDirection(newDirection);
         }
@@ -190,7 +191,7 @@
       };
 
       // Задаем конструктор Apple (яблоко)
-      var Apple = function () {
+      let Apple = function () {
         this.position = new Block(10, 10);
         this.color = rColor(colors);
         console.log(this.color);
@@ -203,28 +204,28 @@
 
       // Перемещаем яблоко в случайную позицию
       Apple.prototype.move = function () {
-        var randomCol = Math.floor(Math.random() * (widthInBlocks - 2)) + 1;
-        var randomRow = Math.floor(Math.random() * (heightInBlocks - 2)) + 1;
+        let randomCol = Math.floor(Math.random() * (widthInBlocks - 2)) + 1;
+        let randomRow = Math.floor(Math.random() * (heightInBlocks - 2)) + 1;
         this.position = new Block(randomCol, randomRow);
         this.color = rColor(colors);
       };
 
       //apple.draw();
 
-      //     var block = new Block(4, 6);
+      //     let block = new Block(4, 6);
       //     block.drawSquare("blue");
 
-      //     var block1 = new Block(5, 6);
+      //     let block1 = new Block(5, 6);
       //     block1.drawCircle("green");
 
       //    console.log(block.equal(block1));
 
-      var snake = new Snake();
-      var apple = new Apple();
+      let snake = new Snake();
+      let apple = new Apple();
       //snake.draw();
 
       // Запускаем функцию анимации через setInterval
-      var intervalId = setInterval(function () {
+      let intervalId = setInterval(function () {
         ctx.clearRect(0, 0, width, height);
         drawScore();
         snake.move();
@@ -232,6 +233,6 @@
         apple.draw();
         drawBorder();
       }, 200);
-    </script>
+    </script> -->
   </body>
 </html>
